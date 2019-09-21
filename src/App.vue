@@ -23,16 +23,15 @@
   color: #2c3e50;
   height: 100vh;
   background-image:url("https://www.jesusislife.in/wp-content/uploads/2019/05/Savin-NY-Website-Background-Web.jpg");
-  
 }
+
 #nav {
   padding: 30px;
   font-size: 30px;
   background: teal;
-  position: fixed;
   top: 20px;
-  left: 100px;
-  right: 100px;
+  margin: 0 10vh;
+  position: relative;
 }
 
 #nav a {
@@ -61,4 +60,13 @@
 .reception-div {
 
 }
+
+.table-striped {
+  font-size: xx-large;
+  line-height: 1.6;
+  border: 3px solid teal;
+  padding: 30px 30px;
+}
+
+@import'~bootstrap/dist/css/bootstrap.css'
 </style>
