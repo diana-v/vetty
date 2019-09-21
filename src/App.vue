@@ -8,7 +8,7 @@
       <router-link to="/client">Client</router-link> |
      <router-link to="/statistics">Statistics</router-link>
     </div>
-    <div  class="about" >
+    <div class="about" >
     <router-view />
     </div>
   </div>
@@ -46,7 +46,7 @@
 .about {
   color: #2c3e50;
   margin: 20vh auto;
-  width: 40vh;
+  width: 80vh;
 }
 
 .reception-submit {
@@ -62,10 +62,12 @@
 }
 
 .table-striped {
-  font-size: xx-large;
+  font-size: x-large;
   line-height: 1.6;
   border: 3px solid teal;
-  padding: 30px 30px;
+  border-collapse: collapse;
+  padding: 60px 60px;
+  text-align: left;
 }
 
 @import'~bootstrap/dist/css/bootstrap.css'
