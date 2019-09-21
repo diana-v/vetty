@@ -3,6 +3,10 @@ import App from './App.vue'
 import router from './router'
 import './registerServiceWorker'
 import Vuetify from 'vuetify/lib'
+import Chartkick from 'vue-chartkick'
+import chartjs from 'chart.js'
+
+Vue.use(Chartkick.use(chartjs))
 // import 'bootstrap' //
 
 var STORAGE_KEY = 'todos-vuejs-2.0'

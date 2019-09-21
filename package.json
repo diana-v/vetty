@@ -9,10 +9,14 @@
   },
   "dependencies": {
     "bootstrap": "4.0.0-beta",
+    "chart.js": "^2.8.0",
+    "hchs-vue-charts": "^1.2.8",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
+    "vue-chartjs": "^3.4.2",
+    "vue-chartkick": "^0.5.2",
     "vue-router": "^3.0.3",
     "vuetify": "^2.0.0"
   },

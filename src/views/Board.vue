@@ -11,10 +11,20 @@
   </thead>
   <tbody>
     <tr v-for= "item in items" v-bind:key="item.id">
-      <th scope="row"> {{ item.id }} </th>
-      <td>{{ item.reason }}</td>
-      <td>{{ item.status }}</td>
-      <td>{{ item.destination }}</td>
+      <template v-if="item.status === 'in queue'">
+        <th scope="row"> {{ item.id }} </th>
+        <td>{{ item.reason }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.destination }}</td>
+      </template>
+    </tr>
+    <tr v-for= "item in items" v-bind:key="item.id">
+      <template v-if="item.status !== 'in queue'">
+        <th scope="row"> {{ item.id }} </th>
+        <td>{{ item.reason }}</td>
+        <td>{{ item.status }}</td>
+        <td>{{ item.destination }}</td>
+      </template>
     </tr>
   </tbody>
 </table>

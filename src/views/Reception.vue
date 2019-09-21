@@ -2,30 +2,11 @@
   <div>
     <h1>Reason for visit:</h1>
     <div class="reception-div">
-      <input class="reception-submit" type="button" value="Private" v-on:click="addAppointment('private')" />
-      <input
-        class="reception-submit"
-        type="button"
-        value="Business"
-        onClick="alert('Appointment sucessfully booked.'); return true"
-      />
-      <input
-        class="reception-submit"
-        type="button"
-        value="Transactions"
-        onClick="alert('Appointment sucessfully booked.'); return true"
-      />
-      <input
-        class="reception-submit"
-        type="button"
-        value="Investment"
-        onClick="alert('Appointment sucessfully booked.'); return true"
-      />
-      <input
-        class="reception-submit"
-        type="button"
-        value="clearShit"
-        v-on:click="clearShit">
+      <input class="reception-submit" type="button" value="Private" v-on:click="addAppointment('Private')" />
+      <input class="reception-submit" type="button" value="Business" v-on:click="addAppointment('Business')" />
+      <input class="reception-submit" type="button" value="Withdrawal/Deposit" v-on:click="addAppointment('Withdrawal/Deposit')" />
+      <input class="reception-submit" type="button" value="Investment" v-on:click="addAppointment('Investment')" />
+      <input class="reception-submit" type="button" value="Clear shit" v-on:click="clearShit" />
     </div>
     <div id="example-1">
       <li
@@ -46,7 +27,17 @@ export default {
   },
   methods: {
     addAppointment: function (reason) {
-      this.save({ id: 654, reason: reason, status: 'in queue', destination: 11 })
+      alert('Your appointment is booked for: ' + reason)
+      var itemStatus = 'in queue'
+      if (reason === 'Private') {
+        itemStatus = 'cancelled'
+      }
+      var itemId = this.getNextId()
+      this.save({ id: itemId,
+        reason: reason,
+        status: itemStatus,
+        destination: ''
+      })
       console.log(this.fetch())
     },
     fetch: function () {
@@ -62,6 +53,13 @@ export default {
     },
     clearShit: function () {
       localStorage.clear()
+    },
+    getNextId: function () {
+      var allItems = this.fetch()
+      if (Object.keys(allItems).length === 0) {
+        return 1
+      }
+      return allItems[Object.keys(allItems).length - 1].id + 1
     }
   }
 }

@@ -70,5 +70,12 @@
   text-align: left;
 }
 
+.container {
+  width: 700px ;
+  margin-left: auto ;
+  margin-right: auto ;
+  padding-top: 10%;
+}
+
 @import'~bootstrap/dist/css/bootstrap.css'
 </style>
