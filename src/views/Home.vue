@@ -6,7 +6,7 @@
     </h1>
     <p>
       <br>
-      Here you can register to see a specialist, see your position in the queue and estimated time until your visit. If the time is no longer convenient, you can always cancel or reschedule for a later time.
+      Here you can register to see a specialist, see your position in the queue and estimated time until your visit. To help you save time we advise you to use our statistics page where you will see our busiest time periods.
     </p>
   </div>
 </template>

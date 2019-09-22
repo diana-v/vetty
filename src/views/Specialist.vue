@@ -20,9 +20,9 @@
       <v-btn v-on:click="assignToMe(item.id)">Assign to me</v-btn>
     </template>
       </v-expansion-panel-header>
-      <v-expansion-panel-content>
+      <!-- <v-expansion-panel-content>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </v-expansion-panel-content>
+      </v-expansion-panel-content> -->
     </v-expansion-panel>
   </v-expansion-panels>
 </template>
@@ -53,6 +53,11 @@ export default {
     clearTimeout(this.timeout);
   },
   methods: {
+    timeoutLoop: function () {
+      this.items = this.fetch()
+      this.itemFilter()
+      setTimeout(() => {this.timeoutLoop()}, 200)
+    },
     complete: function (itemId) {
       var allItems = this.fetch()
       for (var i in allItems){
@@ -68,17 +73,12 @@ export default {
       for (var i in allItems){
         if (allItems[i].id == itemId) {
           allItems[i].assignee = this.receptionist.id
-          allItems[i].status = 'Active'
+          allItems[i].status = 'In progress'
           allItems[i].destination = this.receptionist.room
           allItems[i].date_processing_start= Math.floor(Date.now())
         }
       }
       this.save(allItems)
-    },
-    timeoutLoop: function () {
-      this.items = this.fetch()
-      this.itemFilter()
-      setTimeout(() => {this.timeoutLoop()}, 200)
     },
     fetch: function () {
       var todos = JSON.parse(localStorage.getItem(this.key) || '[]')
@@ -90,7 +90,7 @@ export default {
     itemFilter: function () {
       var tempItems = []
       for(var i in this.items){
-        if(this.items[i].status == 'In queue' || (this.items[i].status == 'Active' && this.items[i].assignee === this.receptionist.id )){
+        if(this.items[i].status == 'In queue' || (this.items[i].status == 'In progress' && this.items[i].assignee === this.receptionist.id )){
           if((this.items[i].reason == 'Private' && this.reason['Private']) ||
           (this.items[i].reason == 'Business' && this.reason['Business']) ||
           (this.items[i].reason == 'Withdrawal/Deposit' && this.reason['Withdrawal/Deposit']) ||
