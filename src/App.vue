@@ -8,8 +8,8 @@
       <router-link to="/client">Client</router-link> |
      <router-link to="/statistics">Statistics</router-link>
     </div>
-    <div class="about" >
-    <router-view />
+    <div class="content" >
+      <router-view />
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@
   color: #ffffff;
 }
 
-.about {
+.content {
   color: #2c3e50;
   margin: 20vh auto;
   width: 80vh;
@@ -77,5 +77,4 @@
   padding-top: 10%;
 }
 
-@import'~bootstrap/dist/css/bootstrap.css'
 </style>

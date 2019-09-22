@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "reason": "Private",
+        "status": "Active",
+        "destination": ""
+    },
+    {
+        "id": 2,
+        "reason": "Business",
+        "status": "In queue",
+        "destination": ""
+    },
+    {
+        "id": 3,
+        "reason": "Business",
+        "status": "In queue",
+        "destination": ""
+    }
+]

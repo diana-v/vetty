@@ -1,61 +1,80 @@
 <template>
   <div class="board">
-    <table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Reason</th>
-      <th scope="col">Status</th>
-      <th scope="col">Destination</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for= "item in items" v-bind:key="item.id">
-      <template v-if="item.status === 'in queue'">
-        <th scope="row"> {{ item.id }} </th>
-        <td>{{ item.reason }}</td>
-        <td>{{ item.status }}</td>
-        <td>{{ item.destination }}</td>
-      </template>
-    </tr>
-    <tr v-for= "item in items" v-bind:key="item.id">
-      <template v-if="item.status !== 'in queue'">
-        <th scope="row"> {{ item.id }} </th>
-        <td>{{ item.reason }}</td>
-        <td>{{ item.status }}</td>
-        <td>{{ item.destination }}</td>
-      </template>
-    </tr>
-  </tbody>
-</table>
+    <v-data-table
+      :headers="headers"
+      :items="items"
+      :items-per-page="5"
+      class="elevation-1"
+    ></v-data-table>
   </div>
 </template>
 <script>
 export default {
   data: function () {
     return {
+      headers: [
+        {
+          text: 'ID',
+          align: 'left',
+          sortable: false,
+          value: 'id'
+        },
+        { text: 'reason', value: 'reason' },
+        { text: 'status', value: 'status' },
+        { text: 'destination', value: 'destination' },
+        { text: 'created', value: 'date_created' },
+        { text: 'started', value: 'date_processing_start' },
+        { text: 'finished', value: 'date_processing_end' }
+      ],
       key: 'raktas',
-      items: []
+      items: [],
+      timeout: null
     }
   },
   beforeMount () {
-    this.items = this.fetch()
+    this.timeoutLoop()
+  },
+  beforeDestroy () {
+    clearTimeout(this.timeout);
   },
   methods: {
-    addAppointment: function () {
-      this.save({ id: 654, reason: 'Foo', status: 'in queue', destination: 11 })
-      console.log(this.fetch())
+    timeoutLoop: function () {
+      this.items = this.fetch()
+      this.itemSort()
+      this.process()
+      setTimeout(() => {this.timeoutLoop()}, 1000)
     },
     fetch: function () {
       var todos = JSON.parse(localStorage.getItem(this.key) || '[]')
       return todos
     },
-    save: function (todos) {
-      var allTodos = this.fetch()
-      console.log(allTodos)
-      allTodos.push(todos)
-      localStorage.setItem(this.key, JSON.stringify(allTodos))
-      this.items = allTodos
+    itemSort: function () {
+      this.items = this.items.sort((a, b)=>{
+        let comparison = 0;
+        if (a.reason > b.reason) {
+          comparison = 1;
+        } else if (a.reason < b.reason) {
+          comparison = -1;
+        }
+        return comparison;      
+      }) 
+    },
+    process: function () {
+      var ts
+      for( var i in this.items ) {
+        if(this.items[i].date_created){
+          ts = new Date(this.items[i].date_created );
+          this.items[i].date_created = ts.toLocaleTimeString()
+        }
+        if(this.items[i].date_processing_start){
+          ts = new Date(this.items[i].date_processing_start );
+          this.items[i].date_processing_start = ts.toLocaleTimeString()
+        }
+        if(this.items[i].date_processing_end){
+          ts = new Date(this.items[i].date_processing_end );
+          this.items[i].date_processing_end = ts.toLocaleTimeString()
+        }
+      }
     }
   }
 }
