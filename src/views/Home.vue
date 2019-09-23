@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <br>
-    <h1>{{ msg }}
+    <h1>
     Welcome to your personal banking site!
     </h1>
     <p>
@@ -13,9 +13,31 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  name: 'HelloWorld',  
+  data: function () {
+    return {
+      items: [],
+      key: 'raktas',
+    }  
+  },
+  beforeMount () {
+    this.items = this.fetch()
+    this.save()
+  },
+  methods:{
+    fetch: function () {
+      var data = JSON.parse(localStorage.getItem(this.key) || this.fetchDummyData())
+      return data
+    },
+     fetchDummyData: function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/data.json", false)
+        xhttp.send();
+        return xhttp.responseText
+    },
+    save: function () {
+      localStorage.setItem(this.key, JSON.stringify(this.items))
+    },
   }
 }
 </script>
