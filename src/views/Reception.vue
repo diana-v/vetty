@@ -6,7 +6,7 @@
       <v-btn class="reception-submit" type="button" value="Business" v-on:click="addAppointment('Business')">Business</v-btn>
       <v-btn class="reception-submit" type="button" v-on:click="addAppointment('Withdrawal/Deposit')">Withdrawal/Deposit</v-btn>
       <v-btn class="reception-submit" type="button" value="Investment" v-on:click="addAppointment('Investment')">Investment</v-btn>
-      <v-btn class="reception-submit" type="button" value="Clear" v-on:click="clear">Clear</v-btn>
+      <v-btn v-if="clearVisible" class="reception-submit" type="button" value="Clear" v-on:click="clear">Clear</v-btn>
     </div>
     <v-snackbar
       v-model="snackbar"
@@ -32,6 +32,7 @@ export default {
       text: 'My timeout is set to 2000.',
       timeout: 5000,
       items: [],
+      clearVisible: false,
       key: 'raktas' }
   },
   methods: {
