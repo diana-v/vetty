@@ -2,11 +2,11 @@
   <div class="reception">
     <h1>Reason for visit:</h1>
     <div class="reception-div">
-      <input class="reception-submit" type="button" value="Private" v-on:click="addAppointment('Private')" />
-      <input class="reception-submit" type="button" value="Business" v-on:click="addAppointment('Business')" />
-      <input class="reception-submit" type="button" value="Withdrawal/Deposit" v-on:click="addAppointment('Withdrawal/Deposit')" />
-      <input class="reception-submit" type="button" value="Investment" v-on:click="addAppointment('Investment')" />
-      <input class="reception-submit" type="button" value="Clear" v-on:click="clear" />
+      <v-btn class="reception-submit" type="button" value="Private" v-on:click="addAppointment('Private')" >Private</v-btn>
+      <v-btn class="reception-submit" type="button" value="Business" v-on:click="addAppointment('Business')">Business</v-btn>
+      <v-btn class="reception-submit" type="button" v-on:click="addAppointment('Withdrawal/Deposit')">Withdrawal/Deposit</v-btn>
+      <v-btn class="reception-submit" type="button" value="Investment" v-on:click="addAppointment('Investment')">Investment</v-btn>
+      <v-btn class="reception-submit" type="button" value="Clear" v-on:click="clear">Clear</v-btn>
     </div>
     <v-snackbar
       v-model="snackbar"
