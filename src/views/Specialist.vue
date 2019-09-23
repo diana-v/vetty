@@ -1,35 +1,70 @@
 <template>
-  <v-expansion-panels>
-    <v-row justify="space-around">
-
-      <v-checkbox v-model="reason.Private" label="Private"></v-checkbox>
-      <v-checkbox v-model="reason.Business" label="Business"></v-checkbox>
-      <v-checkbox v-model="reason['Withdrawal/Deposit']" label="Withdrawal/Deposit"></v-checkbox>
-      <v-checkbox v-model="reason.Investment" label="Investment"></v-checkbox>
-    </v-row>
-    <v-expansion-panel
-      v-for="item in items"
-      :key="item.id"
+<div class="specialist">
+    <v-pagination
+      v-model="page"
+      :length="pageCount"
+      :page="length"
+    ></v-pagination>
+    <v-card>
+      <v-col>
+        <v-row class="mt-12">
+            <v-checkbox hide-details v-model="reason.Private" label="Private"></v-checkbox>
+            <v-checkbox hide-details v-model="reason.Business" label="Business"></v-checkbox>
+            <v-checkbox hide-details v-model="reason.Investment" label="Investment"></v-checkbox>
+            <v-checkbox hide-details v-model="reason['Withdrawal/Deposit']" label="Withdrawal/Deposit"></v-checkbox>
+        </v-row>
+        </v-col>
+    </v-card>
+<v-card>
+    <div
+      v-for="item in displayedPosts"
+      :key="item.id">
+      <v-list-item>
+          <v-list-item-icon>
+            <v-icon large color="indigo">mdi-account</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{item.reason}}</v-list-item-title>
+            <v-list-item-subtitle>{{item.id}}</v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-icon>
+          <template v-if="item.assignee == receptionist.id">
+            <v-btn v-on:click="complete(item.id)">Mark as done</v-btn>
+          </template>
+          <template v-else> 
+            <v-btn v-on:click="assignToMe(item.id)">Assign to me </v-btn>
+          </template>
+          </v-list-item-icon>
+      </v-list-item>
+      <v-divider/>
+      </div>
+    </v-card>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="snackbar_timeout"
     >
-      <v-expansion-panel-header> {{item.id}} - {{item.reason}}
-
-    <template v-if="item.assignee == receptionist.id">
-      <v-btn v-on:click="complete(item.id)">Complete</v-btn>
-    </template>
-    <template v-else>
-      <v-btn v-on:click="assignToMe(item.id)">Assign to me</v-btn>
-    </template>
-      </v-expansion-panel-header>
-      <!-- <v-expansion-panel-content>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      </v-expansion-panel-content> -->
-    </v-expansion-panel>
-  </v-expansion-panels>
+      {{ text }}
+      <v-btn
+        color="blue"
+        text
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+  </div>
 </template>
 <script>
 export default {
   data: function () {
-    return {
+    return {      
+      snackbar: false,
+      text: 'My timeout is set to 2000.',
+      snackbar_timeout: 5000,
+      page: 1,
+      perPage: 5,
+      length: 1,
+
       reason: {
         'Private': true,
         'Withdrawal/Deposit': true,
@@ -37,13 +72,21 @@ export default {
         'Investment': true
       },
       receptionist: {
-        id: '666',
-        name: 'Karen',
-        room: '13'
+        id: '123',
+        name: 'Specialist-Name',
+        room: '1'
       },
       key: 'raktas',
       items: [],
       timeout: null
+    }
+  },
+  computed: {
+		displayedPosts () {
+			return this.paginate();
+		},
+    pageCount: function () {
+      return Math.ceil(this.items.length / this.perPage)
     }
   },
   beforeMount () {
@@ -53,6 +96,13 @@ export default {
     clearTimeout(this.timeout);
   },
   methods: {
+    paginate () {
+			let page = this.page;
+			let perPage = this.perPage;
+			let from = (page * perPage) - perPage;
+			let to = (page * perPage);
+			return  this.items.slice(from, to);
+		},
     timeoutLoop: function () {
       this.items = this.fetch()
       this.itemFilter()
@@ -64,6 +114,8 @@ export default {
         if (allItems[i].id == itemId) {
           allItems[i].status = 'Complete'
           allItems[i].date_processing_end = Math.floor(Date.now())
+          this.text = 'Finished processing client in ' + Math.ceil((allItems[i].date_processing_end - allItems[i].date_processing_start) / 1000 / 60 ) + ' minutes'
+          this.snackbar = true
         }
       }
       this.save(allItems)
@@ -81,8 +133,8 @@ export default {
       this.save(allItems)
     },
     fetch: function () {
-      var todos = JSON.parse(localStorage.getItem(this.key) || '[]')
-      return todos
+      var data = JSON.parse(localStorage.getItem(this.key) || '[]')
+      return data
     },
     save: function (data) {
       localStorage.setItem(this.key, JSON.stringify(data))

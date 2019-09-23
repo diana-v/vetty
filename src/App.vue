@@ -23,6 +23,7 @@
   color: #2c3e50;
   height: 100vh;
   background-image:url("https://www.jesusislife.in/wp-content/uploads/2019/05/Savin-NY-Website-Background-Web.jpg");
+  background-position: bottom;
 }
 
 #nav {
@@ -47,18 +48,20 @@
   color: #2c3e50;
   margin: 20vh auto;
   width: 80vh;
+  margin-top: 15vh;
 }
 
 .reception-submit {
   font-size: xx-large;
   margin: 10px;
-  width: 40vh;
+  width: 60vh;
   border-radius: 20px;
   background-color: teal;
+  min-width: 60vh;
 }
 
 .reception-div {
-
+  height: 40px;
 }
 
 .table-striped {
@@ -77,4 +80,9 @@
   padding-top: 10%;
 }
 
+.client,
+.specialist,
+.board {
+  height: 40vh;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="reception">
     <h1>Reason for visit:</h1>
     <div class="reception-div">
       <input class="reception-submit" type="button" value="Private" v-on:click="addAppointment('Private')" />
@@ -50,14 +50,14 @@ export default {
       })
     },
     fetch: function () {
-      var todos = JSON.parse(localStorage.getItem(this.key) || '[]')
-      return todos
+      var data = JSON.parse(localStorage.getItem(this.key) || '[]')
+      return data
     },
-    save: function (todos) {
-      var allTodos = this.fetch()
-      allTodos.push(todos)
-      localStorage.setItem(this.key, JSON.stringify(allTodos))
-      this.items = allTodos
+    save: function (data) {
+      var visits = this.fetch()
+      visits.push(data)
+      localStorage.setItem(this.key, JSON.stringify(visits))
+      this.items = visits
     },
     clear: function () {
       localStorage.clear()

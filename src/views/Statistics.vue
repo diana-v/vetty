@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="statistics">
   <line-chart :data="chartData"></line-chart>
   </div>
 </template>
@@ -38,8 +38,8 @@ export default {
       setTimeout(() => {this.timeoutLoop()}, 5000)
     },
     fetch: function () {
-      var todos = JSON.parse(localStorage.getItem(this.key) || '[]')
-      return todos
+      var data = JSON.parse(localStorage.getItem(this.key) || '[]')
+      return data
     },
     itemFilter: function () {
       var chartData = []

@@ -1,13 +1,9 @@
 <template>
-  <div class="about">
-
+  <div class="client">
     <v-card>
     <v-card-title>
-      Nutrition
-      <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
-        append-icon="search"
         label="Search"
         single-line
         hide-details
@@ -16,18 +12,14 @@
     <v-data-table
       :headers="headers"
       :items="estimateList"
+      :items-per-page="5"
       :search="search"
     >
       <template v-slot:items="props">
         <td>{{ props.item.name }}</td>
-        <td class="text-xs-right">{{ props.item.calories }}</td>
-        <td class="text-xs-right">{{ props.item.fat }}</td>
-        <td class="text-xs-right">{{ props.item.carbs }}</td>
-        <td class="text-xs-right">{{ props.item.protein }}</td>
-        <td class="text-xs-right">{{ props.item.iron }}</td>
       </template>
       <template v-slot:no-results>
-        <v-alert :value="true" color="error" icon="warning">
+        <v-alert :value="true">
           Your search for "{{ search }}" found no results.
         </v-alert>
       </template>
@@ -48,8 +40,8 @@ export default {
           sortable: false,
           value: 'id'
         },
-        { text: 'Reason', value: 'reason' },
-        { text: 'Wait estimate', value: 'wait_estimate' }
+        { text: 'REASON', value: 'reason' },
+        { text: 'WAIT ESTIMATE (min)', value: 'wait_estimate' }
       ],
       estimateList: [],
       reason: {
@@ -74,11 +66,11 @@ export default {
       this.itemFilter()
       this.calcTimeEstimates()
 
-      setTimeout(() => {this.timeoutLoop()}, 1000)
+      setTimeout(() => {this.timeoutLoop()}, 5000)
     },
     fetch: function () {
-      var todos = JSON.parse(localStorage.getItem(this.key) || '[]')
-      return todos
+      var data = JSON.parse(localStorage.getItem(this.key) || '[]')
+      return data
     },
     itemFilter: function () {
       var visits = this.fetch()
@@ -97,7 +89,7 @@ export default {
       }
       
       for (reason in this.reason) {
-        statistics[reason].avg=Math.floor(statistics[reason].time_in_queue / statistics[reason].client_count / 1000)
+        statistics[reason].avg=Math.floor(statistics[reason].time_in_queue / statistics[reason].client_count / 1000 / 60 )
       }
       this.statistics = statistics
     },
